@@ -1,23 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Card, Col, Row } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import News from './components/News/News';
 
 function App() {
+  const [news,setNews]=useState([]);
+  useEffect(()=>{
+    fetch('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=9a68fc37a7de4df29a51a93bbaf7a90e')
+    .then(res=>res.json())
+    .then(data=>setNews(data.articles));
+  },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='total'>
+      <h1 className='head'>News Outlet</h1>
+      <Row xs={1} md={3} className="g-4">
+    {
+      news.map(khobor=><News khobor={khobor}></News>)
+    }
+  </Row>
+   
     </div>
   );
 }
